@@ -1,0 +1,112 @@
+{
+    "test1": {
+        "title": "Test de Conocimientos Generales",
+        "statements": [
+            {
+                "text": "¿Cuál es la capital de España?",
+                "answers": [
+                    {
+                        "text": "Barcelona",
+                        "correct": false
+                    },
+                    {
+                        "text": "Valencia",
+                        "correct": false
+                    },
+                    {
+                        "text": "Madrid",
+                        "correct": true
+                    },
+                    {
+                        "text": "Sevilla",
+                        "correct": false
+                    }
+                ]
+            },
+            {
+                "text": "¿Cuál es el río más largo del mundo?",
+                "answers": [
+                    {
+                        "text": "El Amazonas",
+                        "correct": true
+                    },
+                    {
+                        "text": "El Nilo",
+                        "correct": false
+                    },
+                    {
+                        "text": "El Yangtsé",
+                        "correct": false
+                    },
+                    {
+                        "text": "El Misisipi",
+                        "correct": false
+                    }
+                ]
+            },
+            {
+                "text": "¿Quién pintó \"La Mona Lisa\"?",
+                "answers": [
+                    {
+                        "text": "Vincent van Gogh",
+                        "correct": false
+                    },
+                    {
+                        "text": "Leonardo da Vinci",
+                        "correct": true
+                    },
+                    {
+                        "text": "Pablo Picasso",
+                        "correct": false
+                    },
+                    {
+                        "text": "Claude Monet",
+                        "correct": false
+                    }
+                ]
+            },
+            {
+                "text": "¿Cuál es el planeta más grande del sistema solar?",
+                "answers": [
+                    {
+                        "text": "Marte",
+                        "correct": false
+                    },
+                    {
+                        "text": "La Tierra",
+                        "correct": false
+                    },
+                    {
+                        "text": "Júpiter",
+                        "correct": true
+                    },
+                    {
+                        "text": "Saturno",
+                        "correct": false
+                    }
+                ]
+            },
+            {
+                "text": "¿Cuál es el océano más grande del mundo?",
+                "answers": [
+                    {
+                        "text": "El Océano Atlántico",
+                        "correct": false
+                    },
+                    {
+                        "text": "El Océano Índico",
+                        "correct": false
+                    },
+                    {
+                        "text": "El Océano Ártico",
+                        "correct": false
+                    },
+                    {
+                        "text": "El Océano Pacífico",
+                        "correct": true
+                    }
+                ]
+            }
+        ]
+    }
+}
