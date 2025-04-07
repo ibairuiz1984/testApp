@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>{{ test.title }}</h1>
-        <div v-for="(statement, index) in test.statements" :key="index" class="statement">
+        <div v-for="(statement, index) in randomizedStatements" :key="index" class="statement">
             <p>{{ statement.text }}</p>
             <div v-for="(answer, i) in statement.answers" :key="i" class="answer">
                 <label>
@@ -25,69 +25,66 @@ import { doc, getDoc, addDoc, collection } from "firebase/firestore";
 export default {
     data() {
         return {
-            test: {}, // Test que se va a resolver
-            selectedAnswers: [], // Respuestas seleccionadas por el usuario
+            test: {},
+            randomizedStatements: [],
+            selectedAnswers: [],
             correctAnswers: 0,
             totalQuestions: 0,
             showResults: false
         };
     },
     methods: {
-        // Cargar el test desde Firestore
         async fetchTest() {
             const testRef = doc(db, "tests", this.$route.params.testId);
             const testSnapshot = await getDoc(testRef);
             if (testSnapshot.exists()) {
-                this.test = testSnapshot.data();
-                this.totalQuestions = this.test.statements.length;
-                this.selectedAnswers = Array(this.totalQuestions).fill(null); // Inicializamos en null
+                const testData = testSnapshot.data();
+                this.test = testData;
+                this.randomizedStatements = this.shuffleArray([...testData.statements]);
+                this.totalQuestions = this.randomizedStatements.length;
+                this.selectedAnswers = Array(this.totalQuestions).fill(null);
             } else {
                 console.error("Test no encontrado");
             }
         },
-
-        // Calcular los resultados y guardar el historial
         submitTest() {
             let correctAnswersCount = 0;
-
-            // Evaluamos las respuestas
-            this.test.statements.forEach((statement, index) => {
+            this.randomizedStatements.forEach((statement, index) => {
                 const selectedAnswer = this.selectedAnswers[index];
                 if (selectedAnswer !== null && statement.answers[selectedAnswer].correct) {
                     correctAnswersCount++;
                 }
             });
-
             this.correctAnswers = correctAnswersCount;
             this.showResults = true;
-
-            // Guardar el historial en Firestore
             this.saveHistory(correctAnswersCount);
         },
-
-        // Guardar el resultado del test en el historial
         async saveHistory(correctAnswersCount) {
             try {
                 const historyRef = collection(db, "history");
                 const newHistoryEntry = {
-                    testId: this.test.id || "id_" + new Date().getTime(), // Asegúrate de tener un ID válido
-                    testTitle: this.test.title, // Título del test
+                    testId: this.test.id || "id_" + new Date().getTime(),
+                    testTitle: this.test.title,
                     correctAnswers: correctAnswersCount,
                     totalQuestions: this.totalQuestions,
-                    date: new Date() // Fecha actual
+                    date: new Date()
                 };
-
-                // Guardamos el historial en la colección 'history'
-                await addDoc(historyRef, newHistoryEntry); // Usamos addDoc para que Firestore cree un ID único automáticamente
+                await addDoc(historyRef, newHistoryEntry);
                 console.log("Resultado guardado en el historial.");
             } catch (error) {
                 console.error("Error guardando el historial:", error);
             }
+        },
+        shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
         }
-
     },
     mounted() {
-        this.fetchTest(); // Cargar el test cuando se monta el componente
+        this.fetchTest();
     }
 };
 </script>

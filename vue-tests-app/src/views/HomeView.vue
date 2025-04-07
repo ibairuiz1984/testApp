@@ -2,13 +2,14 @@
   <div class="container mt-5">
     <h1 class="mb-4">Lista de Tests</h1>
     <ul class="list-group">
-      <li v-for="test in tests" :key="test.id"
-        class="list-group-item d-flex justify-content-between align-items-center">
+      <li
+        v-for="test in tests"
+        :key="test.id"
+        class="list-group-item d-flex justify-content-between align-items-center"
+      >
         <router-link :to="'/test/' + test.id" class="text-decoration-none">
           {{ test.title }}
         </router-link>
-
-        <!-- Botones de edición y eliminación -->
         <div>
           <button @click="editarTest(test.id)" class="btn btn-warning btn-sm mx-1">
             Editar
@@ -25,7 +26,6 @@
 <script>
 import { db } from "@/firebase";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
-
 
 export default {
   name: "HomeView",
@@ -50,7 +50,6 @@ export default {
       }
     },
     editarTest(testId) {
-      // Redirigir a la vista de edición del test
       this.$router.push(`/editar-test/${testId}`);
     },
     async eliminarTest(testId) {
@@ -66,5 +65,4 @@ export default {
 </script>
 
 <style scoped>
-/* Personaliza los estilos si es necesario */
 </style>
